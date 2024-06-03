@@ -5,11 +5,12 @@ import 'package:uuid/uuid.dart';
 const OPENING_TIME = 11;
 const CLOSING_TIME = 23;
 
-List<Map<String, dynamic>> generateTimeSlots(DateTime date) {
+List<Map<String, dynamic>> generateTimeSlots(
+    DateTime date, int openTime, int closeTime) {
   DateTime openingTime =
-      DateTime(date.year, date.month, date.day, OPENING_TIME, 0); // 11:00 AM
+      DateTime(date.year, date.month, date.day, openTime, 0); // 11:00 AM
   DateTime closingTime =
-      DateTime(date.year, date.month, date.day, CLOSING_TIME, 0); // 11:00 PM
+      DateTime(date.year, date.month, date.day, closeTime, 0); // 11:00 PM
   List<Map<String, dynamic>> slots = [];
   DateTime currentTime = DateTime(
       date.year, date.month, date.day, openingTime.hour, openingTime.minute);
@@ -32,7 +33,7 @@ List<Map<String, dynamic>> generateTimeSlots(DateTime date) {
     currentTime = endTime;
   }
 
-  print('slots----> ${slots}');
+  // print('slots----> ${slots}');
 
   // print(
   //     'date -----> ${DateFormat('dd-MM-yyyy').format(DateTime.parse('2024-06-02T11:30:00.000'))}');
