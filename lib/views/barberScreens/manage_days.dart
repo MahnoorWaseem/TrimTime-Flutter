@@ -39,9 +39,6 @@ class _ManageDaysState extends State<ManageDays> {
     SampleProvider sampleProvider =
         Provider.of<SampleProvider>(context, listen: false);
 
-    print(
-        ' (from provider): \n Barbers Availability--------------> ${sampleProvider.barberAvailability}');
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Manage Days'),
@@ -65,7 +62,6 @@ class _ManageDaysState extends State<ManageDays> {
           : Column(
               children: [
                 const Text('Manage Days'),
-
                 ListView.builder(
                     shrinkWrap: true,
                     itemCount: sampleProvider.barberAvailability.keys.length,
@@ -95,44 +91,6 @@ class _ManageDaysState extends State<ManageDays> {
                         ),
                       );
                     })
-
-                // sampleProvider.barberAvailability.keys.toList().map((element) {
-                //   print('Day $element');
-                //   print('Slots ${sampleProvider.barberAvailability[element]['slots']}');
-
-                //   // return ListTile(
-                //   //   title: Text(
-                //   //       'Day $element'),
-                //   //   subtitle: Text('Slots'),
-                //   //   trailing: IconButton(
-                //   //     onPressed: () {
-                //   //       // sampleProvider.updateBarberAvailability(
-                //   //       //     day: 'day $index',
-                //   //       //     slotIndex: 'slot $index',
-                //   //       //     value: true);
-                //   //     },
-                //   //     icon: const Icon(Icons.edit),
-                //   //   ),
-                //   // );
-                // }),
-
-                // ListView.builder(   itemBuilder: (context, index) {
-
-                //   return ListTile(
-                //     title: Text(
-                //         'Day ${sampleProvider.barberAvailability.keys.toList()[index]}'),
-                //     subtitle: Text('Slots'),
-                //     trailing: IconButton(
-                //       onPressed: () {
-                //         // sampleProvider.updateBarberAvailability(
-                //         //     day: 'day $index',
-                //         //     slotIndex: 'slot $index',
-                //         //     value: true);
-                //       },
-                //       icon: const Icon(Icons.edit),
-                //     ),
-                //   );
-                // }),
               ],
             ),
     );

@@ -37,12 +37,8 @@ class _BarberHomePageState extends State<BarberHomePage> {
   @override
   Widget build(BuildContext context) {
     SampleProvider sampleProvider =
-        Provider.of<SampleProvider>(context, listen: true);
+        Provider.of<SampleProvider>(context, listen: false);
 
-    // sampleProvider.barberAvailability = widget.barberAvailability;
-
-    // print(
-    //     ' (from provider): \n Barbers Availability--------------> ${sampleProvider.barberAvailability}');
     return Scaffold(
       appBar: AppBar(
         title: const Text('Barber Home Page'),
@@ -63,34 +59,38 @@ class _BarberHomePageState extends State<BarberHomePage> {
           ? const Center(
               child: CircularProgressIndicator(),
             )
-          : Column(
-              children: [
-                Text('Welcome ${localData['userData']['name']}'),
-                Text('Email: ${localData['userData']['email']}'),
-                Text('Phone Number: ${localData['userData']['phoneNumber']}'),
-                Text('isClient: ${localData['isClient']}'),
-                ElevatedButton(
-                  onPressed: () {
-                    sampleProvider.uid = localData['userData']['uid'];
-                    sampleProvider.barberAvailability =
-                        localData['userData']['availability'];
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => ManageDays()),
-                    );
-                  },
-                  child: const Text('Manage Slots'),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => BarberBookings()),
-                    );
-                  },
-                  child: const Text('Bookings'),
-                ),
-              ],
+          : Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Welcome ${localData['userData']['name']}'),
+                  Text('Email: ${localData['userData']['email']}'),
+                  Text('Phone Number: ${localData['userData']['phoneNumber']}'),
+                  Text('isClient: ${localData['isClient']}'),
+                  ElevatedButton(
+                    onPressed: () {
+                      sampleProvider.uid = localData['userData']['uid'];
+                      sampleProvider.barberAvailability =
+                          localData['userData']['availability'];
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => ManageDays()),
+                      );
+                    },
+                    child: const Text('Manage Slots'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => BarberBookings()),
+                      );
+                    },
+                    child: const Text('Bookings'),
+                  ),
+                ],
+              ),
             ),
     );
   }

@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:trim_time/controller/login.dart';
 import 'package:trim_time/providers/sample_provider.dart';
 import 'package:trim_time/views/authentication/signup_page.dart';
-import 'package:trim_time/views/barberScreens/manage_days.dart';
 
 class ManageSlots extends StatefulWidget {
   const ManageSlots({super.key, required this.day});
@@ -20,38 +19,45 @@ class _ManageSlotsState extends State<ManageSlots> {
 
   @override
   Widget build(BuildContext context) {
-    print('widget rebuiding');
     SampleProvider sampleProvider =
         Provider.of<SampleProvider>(context, listen: false);
-    print('DAy ----> ${widget.day}');
 
-    print(
-        'isEqual ----> ${sampleProvider.barberAvailability[widget.day] == '2024-06-08T02:31:25.461406'}');
-    print('slots ----> ${sampleProvider.barberAvailability[widget.day]}');
     return Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: () async {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Slots updated successfully'),
-              ),
-            );
+        floatingActionButton: FloatingActionButton(onPressed: () async {
+          sampleProvider.setLoading(true);
 
-            await updateBarberAvailabilityInFireStore(
-              barberId: sampleProvider.uid,
-              data: sampleProvider.barberAvailability,
-            );
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(
-            //     builder: (context) => ManageDays(),
-            //   ),
-            // );
+          await updateBarberAvailabilityInFireStore(
+            barberId: sampleProvider.uid,
+            data: sampleProvider.barberAvailability,
+          );
+
+          await updateUserDataInLocalStorage(
+              data:
+                  await getUserDataFromFirestore(sampleProvider.uid, isClient));
+
+          sampleProvider.setLoading(false);
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Slots updated successfully'),
+              duration: Duration(seconds: 1),
+            ),
+          );
+        }, child: Consumer<SampleProvider>(
+          builder: (context, provider, child) {
+            return provider.updateAvailabilityCIP
+                ? Container(
+                    width: 20.0,
+                    height: 20.0,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 1,
+                    ),
+                  )
+                : const Icon(Icons.done);
           },
-          child: const Icon(Icons.done_rounded),
-        ),
+        )),
         appBar: AppBar(
-          title: Text('  Day ${widget.day}'),
+          title:
+              Text('${DateFormat('EEEE').format(DateTime.parse(widget.day))}'),
           actions: [
             IconButton(
               onPressed: () async {
@@ -83,27 +89,12 @@ class _ManageSlotsState extends State<ManageSlots> {
                       trailing: Switch(
                         value: slot['isAvailable'],
                         onChanged: (value) {
-                          print('New value ------> $value');
                           provider.updateBarberAvailability(
                               day: widget.day, slotIndex: index, value: value);
                         },
                       ),
                     );
-                  }
-                      // child: ListTile(
-                      //   title: Text(
-                      //       'Slot ${index + 1} : ${slot['start']} - ${slot['end']}'),
-                      //   trailing: Switch(
-                      //     value: slot['isAvailable'],
-                      //     onChanged: (value) {
-                      //       print('New value ------> $value');
-                      //       sampleProvider.barberAvailability[widget.day]['slots']
-                      //           [index]['isAvailable'] = value;
-
-                      //     },
-                      //   ),
-                      // ),
-                      );
+                  });
                 }));
   }
 }
