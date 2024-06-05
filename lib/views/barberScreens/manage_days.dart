@@ -39,6 +39,10 @@ class _ManageDaysState extends State<ManageDays> {
     SampleProvider sampleProvider =
         Provider.of<SampleProvider>(context, listen: false);
 
+    var days = sampleProvider.barberAvailability.keys.toList();
+    // Sorting days bcz firebase is not giving values in correct order
+    days.sort((a, b) => DateTime.parse(a).compareTo(DateTime.parse(b)));
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Manage Days'),
@@ -66,8 +70,7 @@ class _ManageDaysState extends State<ManageDays> {
                     shrinkWrap: true,
                     itemCount: sampleProvider.barberAvailability.keys.length,
                     itemBuilder: (context, index) {
-                      var day = sampleProvider.barberAvailability.keys
-                          .toList()[index];
+                      var day = days[index];
 
                       return GestureDetector(
                         onTap: () {
