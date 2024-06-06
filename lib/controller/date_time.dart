@@ -1,5 +1,3 @@
-// import 'dart:html';
-
 import 'package:uuid/uuid.dart';
 
 const OPENING_TIME = 11;
@@ -33,12 +31,18 @@ List<Map<String, dynamic>> generateTimeSlots(
     currentTime = endTime;
   }
 
-  // print('slots----> ${slots}');
-
-  // print(
-  //     'date -----> ${DateFormat('dd-MM-yyyy').format(DateTime.parse('2024-06-02T11:30:00.000'))}');
-
-  // print('slots length----> ${DateTime()}');
-
   return slots;
+}
+
+generate7DaysSlots(DateTime startingDay, int openingTime, int closingTime) {
+  var availableSlots = {};
+  for (var i = 0; i < 7; i++) {
+    String day = (startingDay.add(Duration(days: i)).toIso8601String());
+    availableSlots[day] = {
+      'isAvailable': true,
+      'slots': generateTimeSlots(DateTime.parse(day), openingTime, closingTime),
+    };
+  }
+
+  return availableSlots;
 }

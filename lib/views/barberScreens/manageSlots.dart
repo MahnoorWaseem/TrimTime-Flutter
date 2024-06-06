@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:trim_time/controller/firestore.dart';
+import 'package:trim_time/controller/local_storage.dart';
 import 'package:trim_time/controller/login.dart';
 import 'package:trim_time/providers/sample_provider.dart';
 import 'package:trim_time/views/authentication/signup_page.dart';
@@ -17,6 +19,18 @@ class ManageSlots extends StatefulWidget {
 class _ManageSlotsState extends State<ManageSlots> {
   final isClient = false;
 
+  _updateData(
+      {required String uid,
+      required Map<String, dynamic> barberAvailability}) async {
+    await updateBarberAvailabilityInFirestore(
+      barberId: uid,
+      data: barberAvailability,
+    );
+
+    await updateUserDataInLocalStorage(
+        data: await getUserDataFromFirestore(uid, isClient));
+  }
+
   @override
   Widget build(BuildContext context) {
     SampleProvider sampleProvider =
@@ -24,18 +38,13 @@ class _ManageSlotsState extends State<ManageSlots> {
 
     return Scaffold(
         floatingActionButton: FloatingActionButton(onPressed: () async {
-          sampleProvider.setLoading(true);
+          sampleProvider.setUpdateSlotsCIP(true);
 
-          await updateBarberAvailabilityInFireStore(
-            barberId: sampleProvider.uid,
-            data: sampleProvider.barberAvailability,
-          );
+          await _updateData(
+              uid: sampleProvider.uid,
+              barberAvailability: sampleProvider.barberAvailability);
 
-          await updateUserDataInLocalStorage(
-              data:
-                  await getUserDataFromFirestore(sampleProvider.uid, isClient));
-
-          sampleProvider.setLoading(false);
+          sampleProvider.setUpdateSlotsCIP(false);
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text('Slots updated successfully'),
@@ -44,7 +53,7 @@ class _ManageSlotsState extends State<ManageSlots> {
           );
         }, child: Consumer<SampleProvider>(
           builder: (context, provider, child) {
-            return provider.updateAvailabilityCIP
+            return provider.updateSlotsCIP
                 ? Container(
                     width: 20.0,
                     height: 20.0,
@@ -89,7 +98,7 @@ class _ManageSlotsState extends State<ManageSlots> {
                       trailing: Switch(
                         value: slot['isAvailable'],
                         onChanged: (value) {
-                          provider.updateBarberAvailability(
+                          provider.updateBarberSlotsAvailability(
                               day: widget.day, slotIndex: index, value: value);
                         },
                       ),
