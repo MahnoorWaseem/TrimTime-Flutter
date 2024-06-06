@@ -6,8 +6,8 @@ import 'package:trim_time/controller/local_storage.dart';
 import 'package:trim_time/controller/login.dart';
 import 'package:trim_time/providers/sample_provider.dart';
 import 'package:trim_time/utilities/constants/constants.dart';
-import 'package:trim_time/views/authentication/signup_page.dart';
 import 'package:trim_time/views/barberScreens/home_barber.dart';
+import 'package:trim_time/views/sign_in.dart';
 
 class BarberRegistrationPage extends StatefulWidget {
   BarberRegistrationPage({
@@ -121,7 +121,7 @@ class _BarberRegistrationPageState extends State<BarberRegistrationPage> {
                 await signOut();
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => const Signup()),
+                  MaterialPageRoute(builder: (context) => const SignIn()),
                 );
               },
               icon: const Icon(Icons.logout),

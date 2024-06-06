@@ -5,7 +5,7 @@ import 'package:trim_time/controller/firestore.dart';
 import 'package:trim_time/controller/local_storage.dart';
 import 'package:trim_time/controller/login.dart';
 import 'package:trim_time/providers/sample_provider.dart';
-import 'package:trim_time/views/authentication/signup_page.dart';
+import 'package:trim_time/views/sign_in.dart';
 
 class ManageSlots extends StatefulWidget {
   const ManageSlots({super.key, required this.day});
@@ -73,7 +73,7 @@ class _ManageSlotsState extends State<ManageSlots> {
                 await signOut();
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => Signup()),
+                  MaterialPageRoute(builder: (context) => SignIn()),
                 );
               },
               icon: const Icon(Icons.logout),

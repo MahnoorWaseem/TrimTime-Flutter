@@ -4,9 +4,9 @@ import 'package:trim_time/controller/firestore.dart';
 import 'package:trim_time/controller/local_storage.dart';
 import 'package:trim_time/controller/login.dart';
 import 'package:trim_time/providers/sample_provider.dart';
-import 'package:trim_time/views/authentication/signup_page.dart';
 import 'package:trim_time/views/barberScreens/manage_slots.dart';
 import 'package:intl/intl.dart';
+import 'package:trim_time/views/sign_in.dart';
 
 class ManageDays extends StatefulWidget {
   const ManageDays({super.key});
@@ -93,7 +93,7 @@ class _ManageDaysState extends State<ManageDays> {
               await signOut();
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => Signup()),
+                MaterialPageRoute(builder: (context) => SignIn()),
               );
             },
             icon: const Icon(Icons.logout),
