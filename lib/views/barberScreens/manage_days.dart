@@ -5,7 +5,7 @@ import 'package:trim_time/controller/local_storage.dart';
 import 'package:trim_time/controller/login.dart';
 import 'package:trim_time/providers/sample_provider.dart';
 import 'package:trim_time/views/authentication/signup_page.dart';
-import 'package:trim_time/views/barberScreens/manageSlots.dart';
+import 'package:trim_time/views/barberScreens/manage_slots.dart';
 import 'package:intl/intl.dart';
 
 class ManageDays extends StatefulWidget {
