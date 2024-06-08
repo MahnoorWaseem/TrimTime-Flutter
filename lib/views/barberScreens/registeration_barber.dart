@@ -20,6 +20,7 @@ class BarberRegistrationPage extends StatefulWidget {
     required this.openingTime,
     required this.closingTime,
     required this.services,
+    required this.uid,
   });
 
   final String photoURL;
@@ -29,7 +30,8 @@ class BarberRegistrationPage extends StatefulWidget {
   final String gender;
   final int openingTime;
   final int closingTime;
-  final List services;
+  final Map<String, dynamic> services;
+  final String uid;
 
   @override
   State<BarberRegistrationPage> createState() => _BarberRegistrationPageState();
@@ -47,29 +49,29 @@ class _BarberRegistrationPageState extends State<BarberRegistrationPage> {
   late bool? isProvidingBeardTrim;
   late bool? isProvidingMassage;
 
-  late Map<String, dynamic> localData;
+  // late Map<String, dynamic> localData;
 
   // LocalStorageModel? localStorageData;
 
-  _loadData() async {
-    await Future.delayed(const Duration(seconds: 2));
+  _loadData() {
+    // await Future.delayed(const Duration(seconds: 2));
 
-    localData = await getDataFromLocalStorage();
+    // localData = await getDataFromLocalStorage();
 
-    print('------------>localData in barber registration page----> $localData');
+    // print('------------>localData in barber registration page----> $localData');
 
-    final _services = localData['userData']['services'];
+    // final _services = localData['userData']['services'];
 
-    setState(() {
-      isProvidingHaircut = _services[0]['isProviding'];
-      isProvidingShave = _services[1]['isProviding'];
-      isProvidingBeardTrim = _services[2]['isProviding'];
-      isProvidingMassage = _services[3]['isProviding'];
-      genderDropDownValue = localData['userData']['gender'];
-      openingTimeDropDownValue = localData['userData']['openingTime'];
-      closingTimeDropDownValue = localData['userData']['closingTime'];
-      _isLoading = false;
-    });
+    // setState(() {
+    isProvidingHaircut = widget.services['1']['isProviding'];
+    isProvidingShave = widget.services['2']['isProviding'];
+    isProvidingBeardTrim = widget.services['3']['isProviding'];
+    isProvidingMassage = widget.services['4']['isProviding'];
+    genderDropDownValue = widget.gender;
+    openingTimeDropDownValue = widget.openingTime;
+    closingTimeDropDownValue = widget.closingTime;
+    // _isLoading = false;
+    // });
   }
 
   @override
@@ -82,10 +84,10 @@ class _BarberRegistrationPageState extends State<BarberRegistrationPage> {
   Widget build(BuildContext context) {
     final sampleProvider = Provider.of<SampleProvider>(context, listen: false);
 
-    sampleProvider.isProvidingHaircut = widget.services[0]['isProviding'];
-    sampleProvider.isProvidingShave = widget.services[1]['isProviding'];
-    sampleProvider.isProvidingBeardTrim = widget.services[2]['isProviding'];
-    sampleProvider.isProvidingMassage = widget.services[3]['isProviding'];
+    sampleProvider.isProvidingHaircut = widget.services['1']['isProviding'];
+    sampleProvider.isProvidingShave = widget.services['2']['isProviding'];
+    sampleProvider.isProvidingBeardTrim = widget.services['3']['isProviding'];
+    sampleProvider.isProvidingMassage = widget.services['4']['isProviding'];
 
     TextEditingController fullNameController =
         TextEditingController(text: widget.fullName);
@@ -97,13 +99,13 @@ class _BarberRegistrationPageState extends State<BarberRegistrationPage> {
     TextEditingController phoneNumberController =
         TextEditingController(text: widget.phoneNumber);
     TextEditingController haircutPriceController =
-        TextEditingController(text: widget.services[0]['price'].toString());
+        TextEditingController(text: widget.services['1']['price'].toString());
     TextEditingController beardTrimPriceController =
-        TextEditingController(text: widget.services[2]['price'].toString());
+        TextEditingController(text: widget.services['2']['price'].toString());
     TextEditingController shavePriceController =
-        TextEditingController(text: widget.services[1]['price'].toString());
+        TextEditingController(text: widget.services['3']['price'].toString());
     TextEditingController massagePriceController =
-        TextEditingController(text: widget.services[3]['price'].toString());
+        TextEditingController(text: widget.services['4']['price'].toString());
 
     final shopNameController = TextEditingController();
     final shopAddressController = TextEditingController();
@@ -136,8 +138,8 @@ class _BarberRegistrationPageState extends State<BarberRegistrationPage> {
                     const Text('Register Yourself Here!'),
                     CircleAvatar(
                       radius: 50,
-                      backgroundImage:
-                          NetworkImage(localData['userData']['photoURL']),
+                      backgroundImage: NetworkImage(
+                          widget.photoURL ?? DEFAULT_PROFILE_IMAGE),
                     ),
                     TextField(
                       maxLength: 30,
@@ -362,8 +364,8 @@ class _BarberRegistrationPageState extends State<BarberRegistrationPage> {
                             sampleProvider.isProvidingBeardTrim! ||
                             sampleProvider.isProvidingMassage!) {
                           await updateUserRegistrationDataInFirestore(
-                              userId: localData['uid'],
-                              isClient: localData['isClient'],
+                              userId: widget.uid,
+                              isClient: isClient,
                               data: {
                                 'isRegistered': true,
                                 'name': fullNameController.text,
@@ -382,36 +384,36 @@ class _BarberRegistrationPageState extends State<BarberRegistrationPage> {
                                     DateTime.now(),
                                     openingTimeDropDownValue,
                                     closingTimeDropDownValue),
-                                'services': [
-                                  {
+                                'services': {
+                                  '1': {
                                     'serviceId': '1',
                                     'isProviding':
                                         sampleProvider.isProvidingHaircut,
                                     'price':
                                         int.parse(haircutPriceController.text),
                                   },
-                                  {
+                                  '2': {
                                     'serviceId': '2',
                                     'isProviding':
                                         sampleProvider.isProvidingShave,
                                     'price':
                                         int.parse(shavePriceController.text),
                                   },
-                                  {
+                                  '3': {
                                     'serviceId': '3',
                                     'isProviding':
                                         sampleProvider.isProvidingBeardTrim,
                                     'price': int.parse(
                                         beardTrimPriceController.text),
                                   },
-                                  {
+                                  '4': {
                                     'serviceId': '4',
                                     'isProviding':
                                         sampleProvider.isProvidingMassage,
                                     'price':
                                         int.parse(massagePriceController.text),
                                   },
-                                ],
+                                },
                               });
 
                           Navigator.pushReplacement(
@@ -422,7 +424,7 @@ class _BarberRegistrationPageState extends State<BarberRegistrationPage> {
 
                           await updateUserDataInLocalStorage(
                               data: await getUserDataFromFirestore(
-                                  localData['uid'], isClient));
+                                  widget.uid, isClient));
                         } else {
                           ScaffoldMessenger.of(context)
                               .showSnackBar(const SnackBar(

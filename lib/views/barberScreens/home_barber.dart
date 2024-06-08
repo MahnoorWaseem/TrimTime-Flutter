@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
+import 'package:trim_time/colors/custom_colors.dart';
 import 'package:trim_time/controller/local_storage.dart';
 import 'package:trim_time/controller/login.dart';
 import 'package:trim_time/providers/sample_provider.dart';
@@ -57,8 +59,10 @@ class _BarberHomePageState extends State<BarberHomePage> {
       ),
       body: _isLoading
           ? const Center(
-              child: CircularProgressIndicator(),
-            )
+              child: SpinKitFadingCircle(
+              color: CustomColors.peelOrange,
+              size: 50.0,
+            ))
           : Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -70,6 +74,7 @@ class _BarberHomePageState extends State<BarberHomePage> {
                   ElevatedButton(
                     onPressed: () {
                       sampleProvider.uid = localData['userData']['uid'];
+                      // sampleProvider.setUserData(localData['userData']);
                       sampleProvider.barberAvailability =
                           localData['userData']['availability'];
                       Navigator.push(
