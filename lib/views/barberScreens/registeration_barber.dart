@@ -39,7 +39,7 @@ class BarberRegistrationPage extends StatefulWidget {
 
 class _BarberRegistrationPageState extends State<BarberRegistrationPage> {
   final isClient = false;
-  bool _isLoading = true;
+  // bool _isLoading = true;
 
   late String genderDropDownValue;
   late int openingTimeDropDownValue;
@@ -130,313 +130,300 @@ class _BarberRegistrationPageState extends State<BarberRegistrationPage> {
             ),
           ],
         ),
-        body: _isLoading
-            ? const Center(child: CircularProgressIndicator())
-            : SingleChildScrollView(
-                child: Column(
-                  children: [
-                    const Text('Register Yourself Here!'),
-                    CircleAvatar(
-                      radius: 50,
-                      backgroundImage: NetworkImage(
-                          widget.photoURL ?? DEFAULT_PROFILE_IMAGE),
-                    ),
-                    TextField(
-                      maxLength: 30,
-                      controller: fullNameController,
-                      decoration: const InputDecoration(
-                        labelText: 'Full Name',
-                      ),
-                    ),
-                    TextField(
-                      maxLength: 30,
-                      controller: nickNameController,
-                      decoration: const InputDecoration(
-                        labelText: 'Nick Name',
-                      ),
-                    ),
-                    TextField(
-                      enabled: false,
-                      controller: emailController,
-                      decoration: const InputDecoration(
-                        labelText: 'Email',
-                      ),
-                    ),
-                    TextField(
-                      maxLength: 11,
-                      keyboardType: TextInputType.phone,
-                      controller: phoneNumberController,
-                      decoration: const InputDecoration(
-                        labelText: 'Phone Number',
-                      ),
-                    ),
-                    TextField(
-                      maxLength: 70,
-                      controller: addressController,
-                      decoration: const InputDecoration(
-                        labelText: 'Your Address',
-                      ),
-                    ),
-                    TextField(
-                      maxLength: 70,
-                      controller: shopNameController,
-                      decoration: const InputDecoration(
-                        labelText: 'Shpo Name',
-                      ),
-                    ),
-                    TextField(
-                      maxLength: 70,
-                      controller: shopAddressController,
-                      decoration: const InputDecoration(
-                        labelText: 'Shop Address',
-                      ),
-                    ),
-                    TextField(
-                      maxLength: 11,
-                      controller: shopPhoneNumberController,
-                      decoration: const InputDecoration(
-                        labelText: 'Shop Phone Number',
-                      ),
-                    ),
-                    DropdownButton(
-                      // Initial Value
-                      value: genderDropDownValue,
-
-                      icon: const Icon(Icons.keyboard_arrow_down),
-
-                      items: genders.map((String items) {
-                        return DropdownMenuItem(
-                          value: items,
-                          child: Text(items.toUpperCase()),
-                        );
-                      }).toList(),
-
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          genderDropDownValue = newValue!;
-                        });
-                      },
-                    ),
-                    const Text('Opening Time (Morning - Afternoon)'),
-                    DropdownButton(
-                      // Initial Value
-                      value: openingTimeDropDownValue,
-
-                      icon: const Icon(Icons.keyboard_arrow_down),
-
-                      items: openingTimes.map((int time) {
-                        return DropdownMenuItem(
-                          value: time,
-                          child: Text(time < 12
-                              ? '$time AM'
-                              : time == 12
-                                  ? '12 PM'
-                                  : '${time - 12} PM'),
-                        );
-                      }).toList(),
-
-                      onChanged: (int? newValue) {
-                        setState(() {
-                          openingTimeDropDownValue = newValue!;
-                        });
-                      },
-                    ),
-                    const Text('Closing Time (Evening - Night)'),
-                    DropdownButton(
-                      // Initial Value
-                      value: closingTimeDropDownValue,
-
-                      icon: const Icon(Icons.keyboard_arrow_down),
-
-                      items: closingTimes.map((int time) {
-                        return DropdownMenuItem(
-                          value: time,
-                          child: Text('${time - 12} PM'),
-                        );
-                      }).toList(),
-
-                      onChanged: (int? newValue) {
-                        setState(() {
-                          closingTimeDropDownValue = newValue!;
-                        });
-                      },
-                    ),
-                    Row(
-                      children: [
-                        Consumer<SampleProvider>(
-                            builder: (context, provider, child) {
-                          return Checkbox(
-                            value: provider.isProvidingHaircut,
-                            onChanged: (bool? updatedValue) {
-                              provider.setIsProvidingHaircut(updatedValue!);
-                            },
-                          );
-                        }),
-                        const Text('Haircut'),
-                        SizedBox(
-                          width: 100,
-                          child: TextField(
-                            maxLength: 3,
-                            controller: haircutPriceController,
-                            decoration: const InputDecoration(
-                              labelText: 'Price',
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Consumer<SampleProvider>(
-                            builder: (context, provider, child) {
-                          return Checkbox(
-                            value: provider.isProvidingShave,
-                            onChanged: (bool? updatedValue) {
-                              provider.setIsProvidingShave(updatedValue!);
-                            },
-                          );
-                        }),
-                        const Text('Shave'),
-                        SizedBox(
-                          width: 100,
-                          child: TextField(
-                            maxLength: 3,
-                            controller: shavePriceController,
-                            decoration: const InputDecoration(
-                              labelText: 'Price',
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Consumer<SampleProvider>(
-                            builder: (context, provider, child) {
-                          return Checkbox(
-                            value: provider.isProvidingBeardTrim,
-                            onChanged: (bool? updatedValue) {
-                              provider.setIsProvidingBeardTrim(updatedValue!);
-                            },
-                          );
-                        }),
-                        const Text('Beard Trim'),
-                        SizedBox(
-                          width: 100,
-                          child: TextField(
-                            maxLength: 3,
-                            controller: beardTrimPriceController,
-                            decoration: const InputDecoration(
-                              labelText: 'Price',
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Consumer<SampleProvider>(
-                            builder: (context, provider, child) {
-                          return Checkbox(
-                            value: provider.isProvidingMassage,
-                            onChanged: (bool? updatedValue) {
-                              provider.setIsProvidingMassage(updatedValue!);
-                            },
-                          );
-                        }),
-                        const Text('Massage'),
-                        SizedBox(
-                          width: 100,
-                          child: TextField(
-                            maxLength: 3,
-                            controller: massagePriceController,
-                            decoration: const InputDecoration(
-                              labelText: 'Price',
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    ElevatedButton(
-                      onPressed: () async {
-                        if (sampleProvider.isProvidingShave! ||
-                            sampleProvider.isProvidingShave! ||
-                            sampleProvider.isProvidingBeardTrim! ||
-                            sampleProvider.isProvidingMassage!) {
-                          await updateUserRegistrationDataInFirestore(
-                              userId: widget.uid,
-                              isClient: isClient,
-                              data: {
-                                'isRegistered': true,
-                                'name': fullNameController.text,
-                                'nickName': nickNameController.text,
-                                'email': emailController.text,
-                                'phoneNumber': phoneNumberController.text,
-                                'gender': genderDropDownValue.toLowerCase(),
-                                'address': addressController.text,
-                                'shopName': shopNameController.text,
-                                'shopAddress': shopAddressController.text,
-                                'openingTime': openingTimeDropDownValue,
-                                'closingTime': closingTimeDropDownValue,
-                                'shopPhoneNumber':
-                                    shopPhoneNumberController.text,
-                                'availability': generate7DaysSlots(
-                                    DateTime.now(),
-                                    openingTimeDropDownValue,
-                                    closingTimeDropDownValue),
-                                'services': {
-                                  '1': {
-                                    'serviceId': '1',
-                                    'isProviding':
-                                        sampleProvider.isProvidingHaircut,
-                                    'price':
-                                        int.parse(haircutPriceController.text),
-                                  },
-                                  '2': {
-                                    'serviceId': '2',
-                                    'isProviding':
-                                        sampleProvider.isProvidingShave,
-                                    'price':
-                                        int.parse(shavePriceController.text),
-                                  },
-                                  '3': {
-                                    'serviceId': '3',
-                                    'isProviding':
-                                        sampleProvider.isProvidingBeardTrim,
-                                    'price': int.parse(
-                                        beardTrimPriceController.text),
-                                  },
-                                  '4': {
-                                    'serviceId': '4',
-                                    'isProviding':
-                                        sampleProvider.isProvidingMassage,
-                                    'price':
-                                        int.parse(massagePriceController.text),
-                                  },
-                                },
-                              });
-
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => BarberHomePage()),
-                          );
-
-                          await updateUserDataInLocalStorage(
-                              data: await getUserDataFromFirestore(
-                                  widget.uid, isClient));
-                        } else {
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(const SnackBar(
-                            content:
-                                Text('Please provide at least one service'),
-                          ));
-                        }
-                      },
-                      child: const Text('Update Profile'),
-                    ),
-                  ],
+        body:
+            //  _isLoading
+            //     ? const Center(child: CircularProgressIndicator())
+            //     :
+            SingleChildScrollView(
+          child: Column(
+            children: [
+              const Text('Register Yourself Here!'),
+              CircleAvatar(
+                radius: 50,
+                backgroundImage:
+                    NetworkImage(widget.photoURL ?? DEFAULT_PROFILE_IMAGE),
+              ),
+              TextField(
+                maxLength: 30,
+                controller: fullNameController,
+                decoration: const InputDecoration(
+                  labelText: 'Full Name',
                 ),
-              ));
+              ),
+              TextField(
+                maxLength: 30,
+                controller: nickNameController,
+                decoration: const InputDecoration(
+                  labelText: 'Nick Name',
+                ),
+              ),
+              TextField(
+                enabled: false,
+                controller: emailController,
+                decoration: const InputDecoration(
+                  labelText: 'Email',
+                ),
+              ),
+              TextField(
+                maxLength: 11,
+                keyboardType: TextInputType.phone,
+                controller: phoneNumberController,
+                decoration: const InputDecoration(
+                  labelText: 'Phone Number',
+                ),
+              ),
+              TextField(
+                maxLength: 70,
+                controller: addressController,
+                decoration: const InputDecoration(
+                  labelText: 'Your Address',
+                ),
+              ),
+              TextField(
+                maxLength: 70,
+                controller: shopNameController,
+                decoration: const InputDecoration(
+                  labelText: 'Shpo Name',
+                ),
+              ),
+              TextField(
+                maxLength: 70,
+                controller: shopAddressController,
+                decoration: const InputDecoration(
+                  labelText: 'Shop Address',
+                ),
+              ),
+              TextField(
+                maxLength: 11,
+                controller: shopPhoneNumberController,
+                decoration: const InputDecoration(
+                  labelText: 'Shop Phone Number',
+                ),
+              ),
+              DropdownButton(
+                // Initial Value
+                value: genderDropDownValue,
+
+                icon: const Icon(Icons.keyboard_arrow_down),
+
+                items: genders.map((String items) {
+                  return DropdownMenuItem(
+                    value: items,
+                    child: Text(items.toUpperCase()),
+                  );
+                }).toList(),
+
+                onChanged: (String? newValue) {
+                  setState(() {
+                    genderDropDownValue = newValue!;
+                  });
+                },
+              ),
+              const Text('Opening Time (Morning - Afternoon)'),
+              DropdownButton(
+                // Initial Value
+                value: openingTimeDropDownValue,
+
+                icon: const Icon(Icons.keyboard_arrow_down),
+
+                items: openingTimes.map((int time) {
+                  return DropdownMenuItem(
+                    value: time,
+                    child: Text(time < 12
+                        ? '$time AM'
+                        : time == 12
+                            ? '12 PM'
+                            : '${time - 12} PM'),
+                  );
+                }).toList(),
+
+                onChanged: (int? newValue) {
+                  setState(() {
+                    openingTimeDropDownValue = newValue!;
+                  });
+                },
+              ),
+              const Text('Closing Time (Evening - Night)'),
+              DropdownButton(
+                // Initial Value
+                value: closingTimeDropDownValue,
+
+                icon: const Icon(Icons.keyboard_arrow_down),
+
+                items: closingTimes.map((int time) {
+                  return DropdownMenuItem(
+                    value: time,
+                    child: Text('${time - 12} PM'),
+                  );
+                }).toList(),
+
+                onChanged: (int? newValue) {
+                  setState(() {
+                    closingTimeDropDownValue = newValue!;
+                  });
+                },
+              ),
+              Row(
+                children: [
+                  Consumer<SampleProvider>(builder: (context, provider, child) {
+                    return Checkbox(
+                      value: provider.isProvidingHaircut,
+                      onChanged: (bool? updatedValue) {
+                        provider.setIsProvidingHaircut(updatedValue!);
+                      },
+                    );
+                  }),
+                  const Text('Haircut'),
+                  SizedBox(
+                    width: 100,
+                    child: TextField(
+                      maxLength: 3,
+                      controller: haircutPriceController,
+                      decoration: const InputDecoration(
+                        labelText: 'Price',
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Consumer<SampleProvider>(builder: (context, provider, child) {
+                    return Checkbox(
+                      value: provider.isProvidingShave,
+                      onChanged: (bool? updatedValue) {
+                        provider.setIsProvidingShave(updatedValue!);
+                      },
+                    );
+                  }),
+                  const Text('Shave'),
+                  SizedBox(
+                    width: 100,
+                    child: TextField(
+                      maxLength: 3,
+                      controller: shavePriceController,
+                      decoration: const InputDecoration(
+                        labelText: 'Price',
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Consumer<SampleProvider>(builder: (context, provider, child) {
+                    return Checkbox(
+                      value: provider.isProvidingBeardTrim,
+                      onChanged: (bool? updatedValue) {
+                        provider.setIsProvidingBeardTrim(updatedValue!);
+                      },
+                    );
+                  }),
+                  const Text('Beard Trim'),
+                  SizedBox(
+                    width: 100,
+                    child: TextField(
+                      maxLength: 3,
+                      controller: beardTrimPriceController,
+                      decoration: const InputDecoration(
+                        labelText: 'Price',
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Consumer<SampleProvider>(builder: (context, provider, child) {
+                    return Checkbox(
+                      value: provider.isProvidingMassage,
+                      onChanged: (bool? updatedValue) {
+                        provider.setIsProvidingMassage(updatedValue!);
+                      },
+                    );
+                  }),
+                  const Text('Massage'),
+                  SizedBox(
+                    width: 100,
+                    child: TextField(
+                      maxLength: 3,
+                      controller: massagePriceController,
+                      decoration: const InputDecoration(
+                        labelText: 'Price',
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  if (sampleProvider.isProvidingShave! ||
+                      sampleProvider.isProvidingShave! ||
+                      sampleProvider.isProvidingBeardTrim! ||
+                      sampleProvider.isProvidingMassage!) {
+                    await updateUserRegistrationDataInFirestore(
+                        userId: widget.uid,
+                        isClient: isClient,
+                        data: {
+                          'isRegistered': true,
+                          'name': fullNameController.text,
+                          'nickName': nickNameController.text,
+                          'email': emailController.text,
+                          'phoneNumber': phoneNumberController.text,
+                          'gender': genderDropDownValue.toLowerCase(),
+                          'address': addressController.text,
+                          'shopName': shopNameController.text,
+                          'shopAddress': shopAddressController.text,
+                          'openingTime': openingTimeDropDownValue,
+                          'closingTime': closingTimeDropDownValue,
+                          'shopPhoneNumber': shopPhoneNumberController.text,
+                          'availability': generate7DaysSlots(
+                              DateTime.now(),
+                              openingTimeDropDownValue,
+                              closingTimeDropDownValue),
+                          'services': {
+                            '1': {
+                              'serviceId': '1',
+                              'isProviding': sampleProvider.isProvidingHaircut,
+                              'price': int.parse(haircutPriceController.text),
+                            },
+                            '2': {
+                              'serviceId': '2',
+                              'isProviding': sampleProvider.isProvidingShave,
+                              'price': int.parse(shavePriceController.text),
+                            },
+                            '3': {
+                              'serviceId': '3',
+                              'isProviding':
+                                  sampleProvider.isProvidingBeardTrim,
+                              'price': int.parse(beardTrimPriceController.text),
+                            },
+                            '4': {
+                              'serviceId': '4',
+                              'isProviding': sampleProvider.isProvidingMassage,
+                              'price': int.parse(massagePriceController.text),
+                            },
+                          },
+                        });
+
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => BarberHomePage()),
+                    );
+
+                    await updateUserDataInLocalStorage(
+                        data: await getUserDataFromFirestore(
+                            widget.uid, isClient));
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text('Please provide at least one service'),
+                    ));
+                  }
+                },
+                child: const Text('Update Profile'),
+              ),
+            ],
+          ),
+        ));
   }
 }
