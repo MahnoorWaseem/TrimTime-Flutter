@@ -121,10 +121,9 @@ class _BarberRegistrationPageState extends State<BarberRegistrationPage> {
             IconButton(
               onPressed: () async {
                 await signOut();
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const SignIn()),
-                );
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (context) => SignIn()),
+                    (Route route) => false);
               },
               icon: const Icon(Icons.logout),
             ),
@@ -406,14 +405,13 @@ class _BarberRegistrationPageState extends State<BarberRegistrationPage> {
                           },
                         });
 
+                    await updateUserDataInLocalStorage(
+                        data: await getUserDataFromFirestore(
+                            widget.uid, isClient));
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(builder: (context) => BarberHomePage()),
                     );
-
-                    await updateUserDataInLocalStorage(
-                        data: await getUserDataFromFirestore(
-                            widget.uid, isClient));
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Text('Please provide at least one service'),

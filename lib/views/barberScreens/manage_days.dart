@@ -91,10 +91,9 @@ class _ManageDaysState extends State<ManageDays> {
           IconButton(
             onPressed: () async {
               await signOut();
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => SignIn()),
-              );
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (context) => SignIn()),
+                  (Route route) => false);
             },
             icon: const Icon(Icons.logout),
           ),
