@@ -66,12 +66,15 @@ class _ManageDaysState extends State<ManageDays> {
             barberAvailability: sampleProvider.barberAvailability);
 
         sampleProvider.setUpdateDaysCIP(false);
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Days updated successfully'),
-            duration: Duration(seconds: 1),
-          ),
-        );
+
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Days updated successfully'),
+              duration: Duration(seconds: 1),
+            ),
+          );
+        }
       }, child: Consumer<SampleProvider>(
         builder: (context, provider, child) {
           return provider.updateDaysCIP

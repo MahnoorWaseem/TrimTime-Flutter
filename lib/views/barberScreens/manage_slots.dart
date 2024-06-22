@@ -45,12 +45,15 @@ class _ManageSlotsState extends State<ManageSlots> {
               barberAvailability: sampleProvider.barberAvailability);
 
           sampleProvider.setUpdateSlotsCIP(false);
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Slots updated successfully'),
-              duration: Duration(seconds: 1),
-            ),
-          );
+
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Slots updated successfully'),
+                duration: Duration(seconds: 1),
+              ),
+            );
+          }
         }, child: Consumer<SampleProvider>(
           builder: (context, provider, child) {
             return provider.updateSlotsCIP
