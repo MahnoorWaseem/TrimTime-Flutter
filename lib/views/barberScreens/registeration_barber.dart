@@ -82,12 +82,12 @@ class _BarberRegistrationPageState extends State<BarberRegistrationPage> {
 
   @override
   Widget build(BuildContext context) {
-    final sampleProvider = Provider.of<SampleProvider>(context, listen: false);
+    final appProvider = Provider.of<AppProvider>(context, listen: false);
 
-    sampleProvider.isProvidingHaircut = widget.services['1']['isProviding'];
-    sampleProvider.isProvidingShave = widget.services['2']['isProviding'];
-    sampleProvider.isProvidingBeardTrim = widget.services['3']['isProviding'];
-    sampleProvider.isProvidingMassage = widget.services['4']['isProviding'];
+    appProvider.isProvidingHaircut = widget.services['1']['isProviding'];
+    appProvider.isProvidingShave = widget.services['2']['isProviding'];
+    appProvider.isProvidingBeardTrim = widget.services['3']['isProviding'];
+    appProvider.isProvidingMassage = widget.services['4']['isProviding'];
 
     TextEditingController fullNameController =
         TextEditingController(text: widget.fullName);
@@ -199,7 +199,7 @@ class _BarberRegistrationPageState extends State<BarberRegistrationPage> {
                   labelText: 'Shop Phone Number',
                 ),
               ),
-              Consumer<SampleProvider>(
+              Consumer<AppProvider>(
                 builder: (context, provider, child) {
                   return DropdownButton(
                     // Initial Value
@@ -221,7 +221,7 @@ class _BarberRegistrationPageState extends State<BarberRegistrationPage> {
                 },
               ),
               const Text('Opening Time (Morning - Afternoon)'),
-              Consumer<SampleProvider>(
+              Consumer<AppProvider>(
                 builder: (context, provider, child) {
                   return DropdownButton(
                     // Initial Value
@@ -247,7 +247,7 @@ class _BarberRegistrationPageState extends State<BarberRegistrationPage> {
                 },
               ),
               const Text('Closing Time (Evening - Night)'),
-              Consumer<SampleProvider>(
+              Consumer<AppProvider>(
                 builder: (context, provider, child) {
                   return DropdownButton(
                     // Initial Value
@@ -270,7 +270,7 @@ class _BarberRegistrationPageState extends State<BarberRegistrationPage> {
               ),
               Row(
                 children: [
-                  Consumer<SampleProvider>(builder: (context, provider, child) {
+                  Consumer<AppProvider>(builder: (context, provider, child) {
                     return Checkbox(
                       value: provider.isProvidingHaircut,
                       onChanged: (bool? updatedValue) {
@@ -293,7 +293,7 @@ class _BarberRegistrationPageState extends State<BarberRegistrationPage> {
               ),
               Row(
                 children: [
-                  Consumer<SampleProvider>(builder: (context, provider, child) {
+                  Consumer<AppProvider>(builder: (context, provider, child) {
                     return Checkbox(
                       value: provider.isProvidingShave,
                       onChanged: (bool? updatedValue) {
@@ -316,7 +316,7 @@ class _BarberRegistrationPageState extends State<BarberRegistrationPage> {
               ),
               Row(
                 children: [
-                  Consumer<SampleProvider>(builder: (context, provider, child) {
+                  Consumer<AppProvider>(builder: (context, provider, child) {
                     return Checkbox(
                       value: provider.isProvidingBeardTrim,
                       onChanged: (bool? updatedValue) {
@@ -339,7 +339,7 @@ class _BarberRegistrationPageState extends State<BarberRegistrationPage> {
               ),
               Row(
                 children: [
-                  Consumer<SampleProvider>(builder: (context, provider, child) {
+                  Consumer<AppProvider>(builder: (context, provider, child) {
                     return Checkbox(
                       value: provider.isProvidingMassage,
                       onChanged: (bool? updatedValue) {
@@ -362,10 +362,10 @@ class _BarberRegistrationPageState extends State<BarberRegistrationPage> {
               ),
               ElevatedButton(
                 onPressed: () async {
-                  if (sampleProvider.isProvidingShave! ||
-                      sampleProvider.isProvidingShave! ||
-                      sampleProvider.isProvidingBeardTrim! ||
-                      sampleProvider.isProvidingMassage!) {
+                  if (appProvider.isProvidingShave! ||
+                      appProvider.isProvidingShave! ||
+                      appProvider.isProvidingBeardTrim! ||
+                      appProvider.isProvidingMassage!) {
                     await updateUserRegistrationDataInFirestore(
                         userId: widget.uid,
                         isClient: isClient,
@@ -375,37 +375,36 @@ class _BarberRegistrationPageState extends State<BarberRegistrationPage> {
                           'nickName': nickNameController.text,
                           'email': emailController.text,
                           'phoneNumber': phoneNumberController.text,
-                          'gender': sampleProvider.barberGender.toLowerCase(),
+                          'gender': appProvider.barberGender.toLowerCase(),
                           'address': addressController.text,
                           'shopName': shopNameController.text,
                           'shopAddress': shopAddressController.text,
-                          'openingTime': sampleProvider.barberOpeningTime,
-                          'closingTime': sampleProvider.barberClosingTime,
+                          'openingTime': appProvider.barberOpeningTime,
+                          'closingTime': appProvider.barberClosingTime,
                           'shopPhoneNumber': shopPhoneNumberController.text,
                           'availability': generate7DaysSlots(
                               DateTime.now(),
-                              sampleProvider.barberOpeningTime,
-                              sampleProvider.barberClosingTime),
+                              appProvider.barberOpeningTime,
+                              appProvider.barberClosingTime),
                           'services': {
                             '1': {
                               'serviceId': '1',
-                              'isProviding': sampleProvider.isProvidingHaircut,
+                              'isProviding': appProvider.isProvidingHaircut,
                               'price': int.parse(haircutPriceController.text),
                             },
                             '2': {
                               'serviceId': '2',
-                              'isProviding': sampleProvider.isProvidingShave,
+                              'isProviding': appProvider.isProvidingShave,
                               'price': int.parse(shavePriceController.text),
                             },
                             '3': {
                               'serviceId': '3',
-                              'isProviding':
-                                  sampleProvider.isProvidingBeardTrim,
+                              'isProviding': appProvider.isProvidingBeardTrim,
                               'price': int.parse(beardTrimPriceController.text),
                             },
                             '4': {
                               'serviceId': '4',
-                              'isProviding': sampleProvider.isProvidingMassage,
+                              'isProviding': appProvider.isProvidingMassage,
                               'price': int.parse(massagePriceController.text),
                             },
                           },

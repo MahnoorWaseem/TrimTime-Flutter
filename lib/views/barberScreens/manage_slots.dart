@@ -33,18 +33,17 @@ class _ManageSlotsState extends State<ManageSlots> {
 
   @override
   Widget build(BuildContext context) {
-    SampleProvider sampleProvider =
-        Provider.of<SampleProvider>(context, listen: false);
+    AppProvider appProvider = Provider.of<AppProvider>(context, listen: false);
 
     return Scaffold(
         floatingActionButton: FloatingActionButton(onPressed: () async {
-          sampleProvider.setUpdateSlotsCIP(true);
+          appProvider.setUpdateSlotsCIP(true);
 
           await _updateData(
-              uid: sampleProvider.uid,
-              barberAvailability: sampleProvider.barberAvailability);
+              uid: appProvider.uid,
+              barberAvailability: appProvider.barberAvailability);
 
-          sampleProvider.setUpdateSlotsCIP(false);
+          appProvider.setUpdateSlotsCIP(false);
 
           if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -54,7 +53,7 @@ class _ManageSlotsState extends State<ManageSlots> {
               ),
             );
           }
-        }, child: Consumer<SampleProvider>(
+        }, child: Consumer<AppProvider>(
           builder: (context, provider, child) {
             return provider.updateSlotsCIP
                 ? Container(
@@ -82,17 +81,17 @@ class _ManageSlotsState extends State<ManageSlots> {
             ),
           ],
         ),
-        body: sampleProvider.barberAvailability[widget.day] == null
+        body: appProvider.barberAvailability[widget.day] == null
             ? const Center(
                 child: Text('No slots available for this day'),
               )
             : ListView.builder(
-                itemCount: sampleProvider
-                    .barberAvailability[widget.day]['slots'].length,
+                itemCount:
+                    appProvider.barberAvailability[widget.day]['slots'].length,
                 itemBuilder: (context, index) {
-                  var slot = sampleProvider.barberAvailability[widget.day]
-                      ['slots'][index];
-                  return Consumer<SampleProvider>(
+                  var slot = appProvider.barberAvailability[widget.day]['slots']
+                      [index];
+                  return Consumer<AppProvider>(
                       builder: (context, provider, child) {
                     return ListTile(
                       title: Text(

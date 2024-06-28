@@ -50,22 +50,21 @@ class _ManageDaysState extends State<ManageDays> {
 
   @override
   Widget build(BuildContext context) {
-    SampleProvider sampleProvider =
-        Provider.of<SampleProvider>(context, listen: false);
+    AppProvider appProvider = Provider.of<AppProvider>(context, listen: false);
 
-    var days = sampleProvider.barberAvailability.keys.toList();
+    var days = appProvider.barberAvailability.keys.toList();
     // Sorting days bcz firebase is not giving values in correct order
     days.sort((a, b) => DateTime.parse(a).compareTo(DateTime.parse(b)));
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(onPressed: () async {
-        sampleProvider.setUpdateDaysCIP(true);
+        appProvider.setUpdateDaysCIP(true);
 
         await _updateData(
-            uid: sampleProvider.uid,
-            barberAvailability: sampleProvider.barberAvailability);
+            uid: appProvider.uid,
+            barberAvailability: appProvider.barberAvailability);
 
-        sampleProvider.setUpdateDaysCIP(false);
+        appProvider.setUpdateDaysCIP(false);
 
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -75,7 +74,7 @@ class _ManageDaysState extends State<ManageDays> {
             ),
           );
         }
-      }, child: Consumer<SampleProvider>(
+      }, child: Consumer<AppProvider>(
         builder: (context, provider, child) {
           return provider.updateDaysCIP
               ? Container(
@@ -107,7 +106,7 @@ class _ManageDaysState extends State<ManageDays> {
               child: CircularProgressIndicator(),
             )
           : ListView.builder(
-              itemCount: sampleProvider.barberAvailability.keys.length,
+              itemCount: appProvider.barberAvailability.keys.length,
               itemBuilder: (context, index) {
                 var day = days[index];
 
@@ -122,7 +121,7 @@ class _ManageDaysState extends State<ManageDays> {
                       ),
                     );
                   },
-                  child: Consumer<SampleProvider>(
+                  child: Consumer<AppProvider>(
                       builder: (context, provider, child) {
                     return ListTile(
                         title: Text(
@@ -131,7 +130,7 @@ class _ManageDaysState extends State<ManageDays> {
                           Text(
                               'Date : ${DateFormat('d MMM').format(DateTime.parse(day))}'),
                           Switch(
-                            value: sampleProvider.barberAvailability[day]
+                            value: appProvider.barberAvailability[day]
                                 ['isAvailable'],
                             onChanged: (value) {
                               provider.updateBarberDaysAvailability(

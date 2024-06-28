@@ -38,8 +38,7 @@ class _BarberHomePageState extends State<BarberHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    SampleProvider sampleProvider =
-        Provider.of<SampleProvider>(context, listen: false);
+    AppProvider appProvider = Provider.of<AppProvider>(context, listen: false);
 
     return Scaffold(
       appBar: AppBar(
@@ -72,9 +71,9 @@ class _BarberHomePageState extends State<BarberHomePage> {
                   Text('isClient: ${localData['isClient']}'),
                   ElevatedButton(
                     onPressed: () {
-                      sampleProvider.uid = localData['userData']['uid'];
-                      // sampleProvider.setUserData(localData['userData']);
-                      sampleProvider.barberAvailability =
+                      appProvider.uid = localData['userData']['uid'];
+                      // appProvider.setUserData(localData['userData']);
+                      appProvider.barberAvailability =
                           localData['userData']['availability'];
                       Navigator.push(
                         context,
