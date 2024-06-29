@@ -132,10 +132,14 @@ class _ManageDaysState extends State<ManageDays> {
                           Switch(
                             value: appProvider.barberAvailability[day]
                                 ['isAvailable'],
-                            onChanged: (value) {
-                              provider.updateBarberDaysAvailability(
-                                  day: day, value: value);
-                            },
+                            onChanged: appProvider.barberAvailability[day]
+                                        ['hasBooking'] ??
+                                    false
+                                ? null
+                                : (value) {
+                                    provider.updateBarberDaysAvailability(
+                                        day: day, value: value);
+                                  },
                           ),
                         ]),
                         trailing: Icon(

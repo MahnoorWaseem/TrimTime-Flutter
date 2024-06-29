@@ -46,9 +46,9 @@ class _BarberHomePageState extends State<BarberHomePage> {
         actions: [
           IconButton(
             onPressed: () async {
-              await signOut();
+              await appProvider.handleLogoutByProvider();
               Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (context) => SignIn()),
+                  MaterialPageRoute(builder: (context) => const SignIn()),
                   (Route route) => false);
             },
             icon: const Icon(Icons.logout),

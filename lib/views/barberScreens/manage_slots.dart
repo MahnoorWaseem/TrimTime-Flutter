@@ -94,14 +94,19 @@ class _ManageSlotsState extends State<ManageSlots> {
                   return Consumer<AppProvider>(
                       builder: (context, provider, child) {
                     return ListTile(
+                      subtitle: slot['isBooked'] ? Text('Booked') : Text(''),
                       title: Text(
                           'Slot Time:      ${DateFormat('hh : mm').format(DateTime.parse(slot['start']))} - ${DateFormat('hh : mm').format(DateTime.parse(slot['end']))}'),
                       trailing: Switch(
                         value: slot['isAvailable'],
-                        onChanged: (value) {
-                          provider.updateBarberSlotsAvailability(
-                              day: widget.day, slotIndex: index, value: value);
-                        },
+                        onChanged: slot['isBooked']
+                            ? null
+                            : (value) {
+                                provider.updateBarberSlotsAvailability(
+                                    day: widget.day,
+                                    slotIndex: index,
+                                    value: value);
+                              },
                       ),
                     );
                   });

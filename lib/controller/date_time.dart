@@ -40,6 +40,7 @@ generate7DaysSlots(DateTime startingDay, int openingTime, int closingTime) {
     String day = (startingDay.add(Duration(days: i)).toIso8601String());
     availableSlots[day] = {
       'isAvailable': true,
+      'hasBooking': false,
       'slots': generateTimeSlots(DateTime.parse(day), openingTime, closingTime),
     };
   }
