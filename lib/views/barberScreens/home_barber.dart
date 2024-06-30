@@ -3,11 +3,10 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:trim_time/colors/custom_colors.dart';
 import 'package:trim_time/controller/local_storage.dart';
-import 'package:trim_time/controller/login.dart';
 import 'package:trim_time/providers/sample_provider.dart';
 import 'package:trim_time/views/barberScreens/barber_bookings.dart';
 import 'package:trim_time/views/barberScreens/manage_days.dart';
-import 'package:trim_time/views/sign_in.dart';
+import 'package:trim_time/views/sign_in/sign_in.dart';
 
 class BarberHomePage extends StatefulWidget {
   BarberHomePage({super.key});

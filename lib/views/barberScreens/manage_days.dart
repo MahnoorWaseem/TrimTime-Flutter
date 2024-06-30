@@ -6,7 +6,7 @@ import 'package:trim_time/controller/login.dart';
 import 'package:trim_time/providers/sample_provider.dart';
 import 'package:trim_time/views/barberScreens/manage_slots.dart';
 import 'package:intl/intl.dart';
-import 'package:trim_time/views/sign_in.dart';
+import 'package:trim_time/views/sign_in/sign_in.dart';
 
 class ManageDays extends StatefulWidget {
   const ManageDays({super.key});

@@ -5,7 +5,7 @@ import 'package:trim_time/controller/firestore.dart';
 import 'package:trim_time/controller/local_storage.dart';
 import 'package:trim_time/controller/login.dart';
 import 'package:trim_time/providers/sample_provider.dart';
-import 'package:trim_time/views/sign_in.dart';
+import 'package:trim_time/views/sign_in/sign_in.dart';
 
 class ManageSlots extends StatefulWidget {
   const ManageSlots({super.key, required this.day});
