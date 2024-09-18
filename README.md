@@ -1,5 +1,6 @@
 # TrimTime-Flutter
 Mobile app to book your hair dresser in advance and save your time
+At a glance:
 ![image](https://github.com/user-attachments/assets/5377f268-7b3d-4ffa-a702-bc83fffd0e59)
 ![image](https://github.com/user-attachments/assets/54d64091-d027-49d7-a981-3963d7ebbab3)
 ![image](https://github.com/user-attachments/assets/2050534e-6857-46b8-829a-e022f5c447a4)
